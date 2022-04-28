@@ -5,12 +5,13 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.backend.blog.entities.Category;
 import com.backend.blog.exceptions.ResourceNotFoundException;
 import com.backend.blog.payloads.CategoryDto;
 import com.backend.blog.repositories.CategoryRepo;
-
+@Service
 public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
@@ -30,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryDto updateCategory(CategoryDto categoryDto, int categoryId) {
 		Category cat = this.categoryrepo.findById(categoryId)
-				.orElseThrow(() -> new ResourceNotFoundException("Category ", "Category Id", categoryId));
+				.orElseThrow(() -> new ResourceNotFoundException("Category", "Category Id", categoryId));
 
 		cat.setCategoryTitle(categoryDto.getCategoryTitle());
 		cat.setCategoryDescription(categoryDto.getCategoryDescription());
@@ -42,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void deleteCategory(int categoryId) {
 		Category cat = this.categoryrepo.findById(categoryId)
-				.orElseThrow(() -> new ResourceNotFoundException("Category ", "Cateogry Id", categoryId));
+				.orElseThrow(() -> new ResourceNotFoundException("Category", "Cateogry Id", categoryId));
 
 		this.categoryrepo.delete(cat);
 	}

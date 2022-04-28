@@ -13,7 +13,7 @@ public class BlogAppApisApplication {
 		System.out.println("Server started....");
 	}
 
-	@Bean
+	@Bean 
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}

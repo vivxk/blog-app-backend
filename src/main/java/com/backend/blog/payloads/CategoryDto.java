@@ -1,5 +1,8 @@
 package com.backend.blog.payloads;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +14,11 @@ import lombok.Setter;
 public class CategoryDto {
 
 	private int categoryId;
+	@NotBlank
+	@Size(min=4, message = "Title cannot be less than 4 characters!")
 	private String categoryTitle;
+	@NotBlank
+	@Size(min=10, message = "Description cannot be less than 10 characters!")
 	private String categoryDescription;
 
 }
