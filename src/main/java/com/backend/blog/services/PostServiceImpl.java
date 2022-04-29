@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.backend.blog.entities.Category;
@@ -38,9 +39,9 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public PostDto createPost(PostDto postDto, int userId, int categoryId) {
-		User user = this.userRepo.findById(userId)
+		User user = this.userRepo.findById(userId)// find if user exists
 				.orElseThrow(() -> new ResourceNotFoundException("User with", "id", userId));
-		Category category = this.categoryRepo.findById(categoryId)
+		Category category = this.categoryRepo.findById(categoryId) // find if category exists
 				.orElseThrow(() -> new ResourceNotFoundException("Category with", "id", categoryId));
 
 		Post post = this.modelmapper.map(postDto, Post.class);
@@ -74,9 +75,19 @@ public class PostServiceImpl implements PostService {
 
 	}
 
+	/*
+	 * pageSize-amount of posts to be returned on a single page, pageNumber-current
+	 * page number, sortOrder=direction to sort(ascending or descending)
+	 */
 	@Override
-	public PostResponse getAllPosts(int pageNumber, int pageSize) {
-		Pageable pageable = PageRequest.of(pageNumber, pageSize);
+	public PostResponse getAllPosts(int pageNumber, int pageSize, String sortBy, String sortOrder) {
+		Sort sort = (sortOrder.equalsIgnoreCase("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+		/*
+		 * if (sortOrder.equalsIgnoreCase("asc")) { sort = Sort.by(sortBy).ascending();
+		 * } else { sort = Sort.by(sortBy).descending(); }
+		 */
+
+		Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
 		Page<Post> pagePost = this.postRepo.findAll(pageable);
 		List<Post> allPosts = pagePost.getContent();
 		List<PostDto> allPostDtos = allPosts.stream().map((post) -> this.modelmapper.map(post, PostDto.class))
@@ -125,9 +136,13 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Post> searchPosts(String keyword) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PostDto> searchPosts(String keyword) {
+		List<Post> posts = this.postRepo.findByTitleContaining("%" + keyword + "%");
+		/*
+		 * manual query due to bug in hibernate 5.6.7
+		 */ List<PostDto> postDtos = posts.stream().map((post) -> this.modelmapper.map(post, PostDto.class))
+				.collect(Collectors.toList()); // changing every post to PostDto
+		return postDtos;
 	}
 
 }

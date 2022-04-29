@@ -55,8 +55,11 @@ public class PostController {
 	@GetMapping("/posts")
 	public ResponseEntity<PostResponse> getAllPosts(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
-			@RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
-		PostResponse allPosts = this.postService.getAllPosts(pageNumber, pageSize);
+			@RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
+			@RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
+			@RequestParam(value = "sortOrder", defaultValue = "asc", required = false) String sortOrder) {
+		PostResponse allPosts = this.postService.getAllPosts(pageNumber, pageSize, sortBy, sortOrder);
+
 		return new ResponseEntity<PostResponse>(allPosts, HttpStatus.OK);
 	}
 
@@ -79,5 +82,12 @@ public class PostController {
 	public ResponseEntity<ApiResponse> deletePost(@PathVariable int postid) {
 		this.postService.deletePost(postid);
 		return new ResponseEntity<ApiResponse>(new ApiResponse("Post Deleted successfully", true), HttpStatus.OK);
+	}
+
+	@GetMapping("/posts/search/{keywords}")
+	public ResponseEntity<List<PostDto>> searchPostsByTitle(@PathVariable String keywords) {
+		List<PostDto> searchPostsbyTitle = this.postService.searchPosts(keywords);
+		return new ResponseEntity<List<PostDto>>(searchPostsbyTitle, HttpStatus.OK);
+
 	}
 }

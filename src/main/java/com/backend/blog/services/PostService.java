@@ -2,7 +2,6 @@ package com.backend.blog.services;
 
 import java.util.List;
 
-import com.backend.blog.entities.Post;
 import com.backend.blog.payloads.PostDto;
 import com.backend.blog.payloads.PostResponse;
 
@@ -13,7 +12,7 @@ public interface PostService {
 
 	void deletePost(int postId);
 
-	PostResponse getAllPosts(int pageNumber, int pageSize);
+	PostResponse getAllPosts(int pageNumber, int pageSize, String sortBy, String sortOrder);
 
 	PostDto getPostById(int postId);
 
@@ -21,6 +20,6 @@ public interface PostService {
 
 	List<PostDto> getPostsByUser(int userId); // get all posts by user
 
-	List<Post> searchPosts(String keyword); // search post by keyword
+	List<PostDto> searchPosts(String keyword); // search post by keyword
 
 }
