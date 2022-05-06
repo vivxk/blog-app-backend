@@ -1,7 +1,9 @@
 package com.backend.blog.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -29,7 +31,10 @@ public class User {
 	private String email;
 	private String password;
 	private String about;
-	
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Post> posts = new ArrayList<>();
+
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//	private Set<Comment> comments = new HashSet<>();
 }
