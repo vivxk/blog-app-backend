@@ -26,7 +26,7 @@ public class CommentController {
 	public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto commentDto, @PathVariable int postId) {
 
 		CommentDto createdComment = this.commentService.createComment(commentDto, postId);
-
+		
 		return new ResponseEntity<CommentDto>(createdComment, HttpStatus.CREATED);
 
 	}
