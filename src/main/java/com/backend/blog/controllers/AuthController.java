@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.backend.blog.exceptions.APIException;
 import com.backend.blog.payloads.JWTAuthRequest;
 import com.backend.blog.payloads.JWTAuthResponse;
 import com.backend.blog.security.JWTTokenHelper;
@@ -48,7 +49,7 @@ public class AuthController {
 			authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 		} catch (BadCredentialsException e) {
 			System.out.println("Invalid Credentials!");
-			throw new Exception("Invalid Username OR Password!");
+			throw new APIException("Invalid Username OR Password!");
 		}
 
 	}
