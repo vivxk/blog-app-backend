@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.blog.exceptions.APIException;
 import com.backend.blog.payloads.JWTAuthRequest;
 import com.backend.blog.payloads.JWTAuthResponse;
+import com.backend.blog.payloads.UserDto;
 import com.backend.blog.security.JWTTokenHelper;
+import com.backend.blog.services.UserService;
 
 @RestController
 @RequestMapping("/api/auth/")
@@ -30,6 +32,9 @@ public class AuthController {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private UserService userService;
 
 	@PostMapping("/login")
 	public ResponseEntity<JWTAuthResponse> createToken(@RequestBody JWTAuthRequest request) throws Exception {
@@ -54,4 +59,11 @@ public class AuthController {
 
 	}
 
+//register new User
+	@PostMapping("/register")
+	private ResponseEntity<UserDto> registerNewUser(@RequestBody UserDto userDto) {
+		UserDto registeredUser = this.userService.registerNewUser(userDto);
+
+		return new ResponseEntity<UserDto>(registeredUser, HttpStatus.CREATED);
+	}
 }

@@ -34,12 +34,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeHttpRequests().antMatchers("/api/auth/login").permitAll()
-				.antMatchers(HttpMethod.GET).permitAll().anyRequest() // antMatchers() allows API URLs to be public.
-																		// Here allowing login URL and all HTTP GET
-																		// methods to be publicly accessible
-				.authenticated().and().exceptionHandling().authenticationEntryPoint(this.jwtAuthenticationEntryPoint)
-				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		/*
+		 * antMatchers() allows API URLs to be public. Here allowing login URL,register
+		 * and all HTTP GET methods to be publicly accessible.
+		 * 
+		 */
+		http.csrf().disable().authorizeHttpRequests().antMatchers("/api/auth/**").permitAll()
+				.antMatchers(HttpMethod.GET).permitAll().anyRequest().authenticated().and().exceptionHandling()
+				.authenticationEntryPoint(this.jwtAuthenticationEntryPoint).and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		http.addFilterBefore(this.jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

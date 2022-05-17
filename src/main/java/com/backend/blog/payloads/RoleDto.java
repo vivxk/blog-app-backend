@@ -1,13 +1,11 @@
-package com.backend.blog.entities;
+package com.backend.blog.payloads;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import lombok.Data;
 
 @Data
-@Entity
-public class Role {
+public class RoleDto {
 	@Id
 	private int id;
 	private String name;

@@ -5,6 +5,9 @@ import java.util.List;
 import com.backend.blog.payloads.UserDto;
 
 public interface UserService {
+
+	UserDto registerNewUser(UserDto user);
+
 	UserDto createUser(UserDto user); // UserDto to avoid giving User entity directly. Instead passing to service
 										// through dto.
 
