@@ -14,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.backend.blog.security.CustomUserDetailService;
 import com.backend.blog.security.JWTAuthenticationEntryPoint;
@@ -21,8 +22,17 @@ import com.backend.blog.security.JWTAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@EnableWebMvc
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	/*
+	 * http://localhost:9091/swagger-ui/index.html
+	 */
+
+	public static final String[] PUBLIC_URLS = { "/api/auth/**", "/v3/api-docs\"", "/swagger-resources/**",
+			"/swagger-ui/**", "/webjars/**", "/v2/api-docs\""
+
+	};
 
 	@Autowired
 	private CustomUserDetailService customUserDetailService;
@@ -39,8 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 * and all HTTP GET methods to be publicly accessible.
 		 * 
 		 */
-		http.csrf().disable().authorizeHttpRequests().antMatchers("/api/auth/**").permitAll()
-				.antMatchers(HttpMethod.GET).permitAll().anyRequest().authenticated().and().exceptionHandling()
+		http.csrf().disable().authorizeHttpRequests().antMatchers(PUBLIC_URLS).permitAll().antMatchers(HttpMethod.GET)
+				.permitAll().anyRequest().authenticated().and().exceptionHandling()
 				.authenticationEntryPoint(this.jwtAuthenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

@@ -18,7 +18,7 @@ public class JWTTokenHelper {
 
 	private String secret = "jwtTokenKey";
 
-	// retrieve username from jwt token
+	// retrieve username from JWT  token
 	public String getUsernameFromToken(String token) {
 		return getClaimFromToken(token, Claims::getSubject);
 	}

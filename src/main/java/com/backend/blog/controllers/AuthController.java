@@ -51,7 +51,7 @@ public class AuthController {
 				username, password);
 
 		try {
-			authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+			this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 		} catch (BadCredentialsException e) {
 			System.out.println("Invalid Credentials!");
 			throw new APIException("Invalid Username OR Password!");

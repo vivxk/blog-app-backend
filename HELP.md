@@ -34,3 +34,6 @@ The following guides illustrate how to use some features concretely:
 * This token will be used to access other endpoints.
 * In postman select No auth under Authorization tab drop-down and add Authorization Header under Headers tab. e.g. Authorization Bearer <**YOUR_TOKEN_HERE**>
 * 
+
+## Swagger-ui
+* go to browser open **http://localhost:<PORT-NUMBER>** to access swagger-ui

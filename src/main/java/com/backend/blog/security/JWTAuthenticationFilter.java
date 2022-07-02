@@ -42,7 +42,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 		if (requestToken != null && requestToken.startsWith("Bearer")) {
 			token = requestToken.substring(7); // get token value from Bearer
 			try {
-				username = jwtTokenHelper.getUsernameFromToken(token);
+				username = this.jwtTokenHelper.getUsernameFromToken(token);
 
 			} catch (IllegalArgumentException e) {
 				System.out.println("Unable to get JWT Token");
@@ -53,7 +53,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 			}
 
 		} else {
-			System.out.println("Token does not begin with bearer");
+			System.out.println("Token does not begin with Bearer");
 		}
 		// validate token
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
